@@ -25,10 +25,10 @@ export class UserService {
 
     static async getAllSubscribers(): Promise<User[]> {
         try {
-            const response = await apiRequest<User[]>(
+            const response = await apiRequest<{ message: string; data: User[] }>(
                 UserService.ENDPOINTS.GET_ALL_SUBSCRIBERS
             );
-            return Array.isArray(response) ? response : [];
+            return Array.isArray(response.data) ? response.data : [];
         } catch (error) {
             console.error('Error fetching subscribers:', error);
             return [];
