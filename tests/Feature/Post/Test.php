@@ -33,4 +33,17 @@ class Test extends TestCase
 
     }
 
+    public function test_post_create_validation_fails(): void
+    {
+        $response = $this->postJson('api/create-post', [
+            'title' => '',
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJsonStructure([
+            'message',
+            'errors',
+        ]);
+    }
+
 }
