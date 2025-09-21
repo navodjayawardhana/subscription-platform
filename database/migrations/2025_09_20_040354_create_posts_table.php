@@ -10,7 +10,8 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignId('website_id')->constrained('websites')->onDelete('cascade');
+            $table->uuid('website_id');
+            $table->foreign('website_id')->references('id')->on('websites')->onDelete('cascade');
             $table->string('title');
             $table->text('description');
             $table->timestamps();
