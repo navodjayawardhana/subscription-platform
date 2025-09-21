@@ -1,13 +1,13 @@
 export const API_CONFIG = {
-    BASE_URL: 'http://localhost:8000/api',
+    BASE_URL: "http://localhost:8000/api",
     TIMEOUT: 10000,
     HEADERS: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
+        "Content-Type": "application/json",
+        Accept: "application/json",
     },
 };
 
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T> {
     data?: T;
     message?: string;
     success?: boolean;
@@ -15,19 +15,20 @@ export interface ApiResponse<T = any> {
 }
 
 export class ApiError extends Error {
-    constructor(
-        message: string,
-        public status?: number,
-        public response?: any
-    ) {
+    public status?: number;
+    public response?: any;
+
+    constructor(message: string, status?: number, response?: any) {
         super(message);
-        this.name = 'ApiError';
+        this.name = "ApiError";
+        this.status = status;
+        this.response = response;
     }
 }
 
 export const apiRequest = async <T = any>(
     endpoint: string,
-    options: RequestInit = {}
+    options: RequestInit = {},
 ): Promise<T> => {
     const url = `${API_CONFIG.BASE_URL}${endpoint}`;
 
@@ -55,23 +56,27 @@ export const apiRequest = async <T = any>(
             throw new ApiError(
                 errorData.message || `HTTP error! status: ${response.status}`,
                 response.status,
-                errorData
+                errorData,
             );
         }
 
         const data = await response.json();
         return data;
-    } catch (error) {
+    } catch (error: unknown) {
         clearTimeout(timeoutId);
 
         if (error instanceof ApiError) {
             throw error;
         }
 
-        if (error.name === 'AbortError') {
-            throw new ApiError('Request timeout', 408);
+        if (error instanceof DOMException && error.name === "AbortError") {
+            throw new ApiError("Request timeout", 408);
         }
 
-        throw new ApiError(error.message || 'Network error occurred');
+        if (error instanceof Error) {
+            throw new ApiError(error.message, undefined, error);
+        }
+
+        throw new ApiError("Network error occurred");
     }
 };
