@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Action\Subscriber\CreateUserAndSubscriber;
+use App\Action\Subscriber\GetAllSubscriber;
 use App\Http\Requests\Subscriber\UserSubscriberCreateRequest;
 use Illuminate\Http\JsonResponse;
 
@@ -15,5 +16,10 @@ class UserController extends Controller
         return response()->json(
             $createUserAndSubscriber($validated)
         );
+    }
+
+    public function getAllSubscriber(GetAllSubscriber $getAllSubscriber): JsonResponse
+    {
+        return response()->json($getAllSubscriber());
     }
 }

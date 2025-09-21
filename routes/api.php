@@ -6,6 +6,7 @@ use App\Http\Controllers\WebsiteController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/create-user-subscriber', [UserController::class, 'createUserSubscriber']);
+Route::get('/subscribers', [UserController::class, 'getAllSubscriber']);
 
 Route::post('/create-website', [WebsiteController::class, 'createWebsite']);
 Route::get('/all-websites', [WebsiteController::class, 'getAllWebsite']);
