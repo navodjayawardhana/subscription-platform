@@ -38,11 +38,12 @@ class CommonResponse
         ];
     }
 
-    public static function sendSuccessResponseWithData(string $type, object $data): array
+    public static function sendSuccessResponseWithData($message, $data)
     {
         return [
-            'status' => Response::HTTP_OK,
-            $type => $data,
+            'success' => true,
+            'message' => $message,
+            'data' => $data,
         ];
     }
 
