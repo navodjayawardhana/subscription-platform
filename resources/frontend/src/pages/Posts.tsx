@@ -286,15 +286,6 @@ const Posts: React.FC = () => {
                     )}
                 </Card>
             </div>
-
-            <Card title="Recent Posts Activity">
-                <div className="text-center py-8">
-                    <p className="text-gray-600">
-                        Posts will appear here once created. Use the form above
-                        to create your first post.
-                    </p>
-                </div>
-            </Card>
         </div>
     );
 };
