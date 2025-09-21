@@ -10,12 +10,14 @@ return new class extends Migration
     {
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignId('website_id')->constrained('websites')->onDelete('cascade');
-            $table->foreignId('subscriber_id')->constrained('subscribers')->onDelete('cascade');
+            $table->uuid('website_id');
+            $table->foreign('website_id')->references('id')->on('websites')->onDelete('cascade');
+            $table->uuid('subscriber_id');
+            $table->foreign('subscriber_id')->references('id')->on('subscribers')->onDelete('cascade');
             $table->timestamps();
-
             $table->unique(['website_id', 'subscriber_id']);
         });
+
     }
 
     public function down(): void
