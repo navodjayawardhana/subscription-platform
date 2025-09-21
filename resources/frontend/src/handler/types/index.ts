@@ -1,13 +1,11 @@
 export interface BaseEntity {
-    id: number;
+    id: string;
     created_at: string;
     updated_at?: string;
 }
 
 export interface User extends BaseEntity {
-    name: string;
     email: string;
-    email_verified_at?: string;
 }
 
 export interface Website extends BaseEntity {
@@ -20,14 +18,14 @@ export interface Website extends BaseEntity {
 export interface Post extends BaseEntity {
     title: string;
     content: string;
-    website_id: number;
+    website_id: string;
     website?: Website;
     status?: 'published' | 'draft';
 }
 
 export interface Subscription extends BaseEntity {
-    user_id: number;
-    website_id: number;
+    user_id: string;
+    website_id: string;
     user?: User;
     website?: Website;
     status?: 'active' | 'inactive';
@@ -41,18 +39,17 @@ export interface CreateUserRequest {
 export interface CreateWebsiteRequest {
     name: string;
     url: string;
-    description?: string;
 }
 
 export interface CreatePostRequest {
     title: string;
-    content: string;
-    website_id: number;
+    description: string;
+    website_id: string;
 }
 
 export interface CreateSubscriptionRequest {
-    user_id: number;
-    website_id: number;
+    subscriber_id: string;
+    website_id: string;
 }
 
 export interface DashboardStats {
