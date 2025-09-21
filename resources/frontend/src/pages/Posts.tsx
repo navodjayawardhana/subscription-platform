@@ -100,13 +100,6 @@ const Posts: React.FC = () => {
                 </div>
                 <div className="flex space-x-3">
                     <Button
-                        onClick={fetchWebsites}
-                        variant="secondary"
-                        disabled={websitesState.loading === "loading"}
-                    >
-                        Refresh Websites
-                    </Button>
-                    <Button
                         onClick={() => setShowForm(true)}
                         disabled={websitesState.data.length === 0}
                         className="flex items-center"
