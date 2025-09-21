@@ -1,9 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return 'test api';
-});
-
+Route::post('/create-post', [PostController::class, 'createPost']);
