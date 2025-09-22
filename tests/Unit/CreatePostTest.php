@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Action\Post\CreatePost;
 use App\Mail\PostPublished;
+use App\Models\Post;
 use App\Models\Subscriber;
 use App\Models\Subscription;
 use App\Models\User;
@@ -85,5 +86,17 @@ class CreatePostTest extends TestCase
             fn ($mail) => $mail->hasTo($unSubscribeUser1->email));
         Mail::assertNotQueued(PostPublished::class,
             fn ($mail) => $mail->hasTo($unSubscribeUser2->email));
+    }
+
+
+    public function test_post_published_mail_is_queued(): void
+    {
+        Mail::fake();
+
+        $post = Post::factory()->create();
+
+        Mail::to('navodthishan@gmail.com')->queue(new PostPublished($post));
+
+        Mail::assertQueued(PostPublished::class, 1);
     }
 }
