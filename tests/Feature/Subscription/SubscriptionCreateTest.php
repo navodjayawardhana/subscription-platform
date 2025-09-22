@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Subscription;
+namespace Subscription;
 
 use App\Models\Subscriber;
 use App\Models\Website;
