@@ -7,7 +7,7 @@ use App\Models\Website;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class Test extends TestCase
+class CreateNewPostTest extends TestCase
 {
     use RefreshDatabase;
 
