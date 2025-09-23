@@ -73,18 +73,18 @@ class CreatePostTest extends TestCase
             'title'      => 'My First Post',
         ]);
 
-        Mail::assertQueued(PostPublished::class, 3);
+        Mail::assertSent(PostPublished::class, 3);
 
-        Mail::assertQueued(PostPublished::class,
+        Mail::assertSent(PostPublished::class,
             fn ($mail) => $mail->hasTo($subscribeUser1->email));
-        Mail::assertQueued(PostPublished::class,
+        Mail::assertSent(PostPublished::class,
             fn ($mail) => $mail->hasTo($subscribeUser2->email));
-        Mail::assertQueued(PostPublished::class,
+        Mail::assertSent(PostPublished::class,
             fn ($mail) => $mail->hasTo($subscribeUser3->email));
 
-        Mail::assertNotQueued(PostPublished::class,
+        Mail::assertNotSent(PostPublished::class,
             fn ($mail) => $mail->hasTo($unSubscribeUser1->email));
-        Mail::assertNotQueued(PostPublished::class,
+        Mail::assertNotSent(PostPublished::class,
             fn ($mail) => $mail->hasTo($unSubscribeUser2->email));
     }
 
