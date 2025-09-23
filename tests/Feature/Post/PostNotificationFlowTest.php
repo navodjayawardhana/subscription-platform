@@ -88,5 +88,36 @@ class PostNotificationFlowTest extends TestCase
         $this->assertDatabaseCount('post_notification_outboxes', 0);
     }
 
+    public function test_command_sends_and_clears_outbox()
+    {
+        Mail::fake();
 
+        $website = Website::factory()->create();
+
+        $user = User::factory()->create();
+
+        $subscriber = Subscriber::factory()->create([
+            'email' => $user->email
+        ]);
+
+        Subscription::factory()->create([
+            'website_id' => $website->id,
+            'subscriber_id' => $subscriber->id,
+        ]);
+
+        $post = Post::factory()->create([
+            'website_id' => $website->id
+        ]);
+
+        PostNotificationOutbox::create([
+            'post_id' => $post->id,
+            'subscriber_id' => $subscriber->id,
+            'email' => $user->email,
+        ]);
+
+        $this->artisan('post:process-outbox')->assertExitCode(0);
+
+        Mail::assertSent(PostPublished::class, 1);
+        $this->assertDatabaseCount('post_notification_outboxes', 0);
+    }
 }
